@@ -1,0 +1,66 @@
+<settings>
+    <mirrors>
+        <!-- 阿里云 Maven 中央仓库镜像 -->
+        <mirror>
+            <id>aliyunmaven</id>
+            <mirrorOf>central</mirrorOf>
+            <name>Aliyun Maven</name>
+            <url>https://maven.aliyun.com/repository/central</url>
+        </mirror>
+        <!-- 阿里云 Spring 镜像 -->
+        <mirror>
+            <id>aliyunmaven-spring</id>
+            <mirrorOf>spring</mirrorOf>
+            <name>Aliyun Spring</name>
+            <url>https://maven.aliyun.com/repository/spring</url>
+        </mirror>
+        <!-- 阿里云 Apache Snapshots 镜像 -->
+        <mirror>
+            <id>aliyunmaven-snapshots</id>
+            <mirrorOf>apache.snapshots</mirrorOf>
+            <name>Aliyun Apache Snapshots</name>
+            <url>https://maven.aliyun.com/repository/apache-snapshots</url>
+        </mirror>
+        <!-- 阿里云 JCenter 镜像 -->
+        <mirror>
+            <id>aliyunmaven-jcenter</id>
+            <mirrorOf>jcenter</mirrorOf>
+            <name>Aliyun JCenter</name>
+            <url>https://maven.aliyun.com/repository/jcenter</url>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>default</activeProfile>
+    </activeProfiles>
+</settings>
