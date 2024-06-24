@@ -105,6 +105,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (CollectionUtils.isEmpty(questionSubmitList)) {
             return questionSubmitVOPage;
         }
+        //转化为stream对象再对每一个元素做getQuestionSubmitVO的操作再collect转化为list
         List<QuestionSubmitVO> questionSubmitVOList = questionSubmitList.stream()
                 .map(questionSubmit -> getQuestionSubmitVO(questionSubmit, loginUser))
                 .collect(Collectors.toList());

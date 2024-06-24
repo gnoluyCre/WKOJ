@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * 题目提交接口
  *
  * @author <a href="https://github.com/gnoluyCre/WKOJ"></a>
- * @from 
+ * @from
  */
 @RestController
 @RequestMapping("/question_submit")
@@ -49,7 +49,7 @@ public class QuestionSubmitController {
      */
     @PostMapping("/do_submit")
     public BaseResponse<Long> doSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
-            HttpServletRequest request) {
+                                       HttpServletRequest request) {
         if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
