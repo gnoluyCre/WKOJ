@@ -4,6 +4,7 @@ import com.gnluy.wkojsys.judge.codesandbox.CodeSandBox;
 import com.gnluy.wkojsys.judge.codesandbox.model.ExecuteCodeRequest;
 import com.gnluy.wkojsys.judge.codesandbox.model.ExecuteCodeResponse;
 import com.gnluy.wkojsys.model.dto.questionsubmit.JudgeInfo;
+import com.gnluy.wkojsys.model.enums.JudgeInfoMessageEnum;
 
 import java.util.List;
 
@@ -24,9 +25,9 @@ public class ExampleCodeSandBox implements CodeSandBox {
         executeCodeResponse.setMessage("示例代码沙箱流程测试");
         executeCodeResponse.setStatus(1);
         JudgeInfo judgeInfo = new JudgeInfo();
-        judgeInfo.setMemoryLimit("10000");
-        judgeInfo.setStackLimit("10000");
-        judgeInfo.setTimeLimit("10000");
+        judgeInfo.setMemoryLimit(10000L);
+        judgeInfo.setTimeLimit(10000L);
+        judgeInfo.setMessage(JudgeInfoMessageEnum.WAITING.getValue());
         executeCodeResponse.setJudgeInfo(judgeInfo);
         return executeCodeResponse;
     }

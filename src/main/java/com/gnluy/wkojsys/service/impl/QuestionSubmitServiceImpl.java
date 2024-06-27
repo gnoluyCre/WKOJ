@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gnluy.wkojsys.common.ErrorCode;
 import com.gnluy.wkojsys.constant.CommonConstant;
 import com.gnluy.wkojsys.exception.BusinessException;
+import com.gnluy.wkojsys.judge.JudgeService;
 import com.gnluy.wkojsys.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.gnluy.wkojsys.model.entity.QuestionSubmit;
 import com.gnluy.wkojsys.model.entity.User;
@@ -20,10 +21,12 @@ import com.gnluy.wkojsys.utils.SqlUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -39,18 +42,38 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     private QuestionService questionService;
 
     @Resource
-    UserService userService;
+    private UserService userService;
+
+    // todo 循环依赖
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
 
     @Override
     public long doQuestionSubmit(QuestionSubmit questionSubmit, User loginUser) {
         questionSubmit.setJudgeInfo("{}");
         questionSubmit.setStatus(QuestionSubmitStatusEnum.WAITING.getValue());
         this.validQuestionSubmit(questionSubmit);
-        final boolean save = this.save(questionSubmit);
+
+        // todo  加锁 用户串行提交题目
+        QuestionSubmit questionSubmit1 = new QuestionSubmit();
+        questionSubmit1.setLanguage(questionSubmit.getLanguage());
+        questionSubmit1.setCode(questionSubmit.getCode());
+        questionSubmit1.setJudgeInfo(questionSubmit.getJudgeInfo());
+        questionSubmit1.setStatus(questionSubmit.getStatus());
+        questionSubmit1.setQuestionId(questionSubmit.getQuestionId());
+        questionSubmit1.setUserId(loginUser.getId());
+        
+        final boolean save = this.save(questionSubmit1);
         if (!save) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR, "提交失败");
         }
-        Long questionSubmitId = questionSubmit.getId();
+        Long questionSubmitId = questionSubmit1.getId();
+
+        //异步执行判题服务
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
         return questionSubmitId;
     }
 

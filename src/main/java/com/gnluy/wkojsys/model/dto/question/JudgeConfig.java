@@ -15,15 +15,15 @@ public class JudgeConfig {
     /**
      * 时间限制（ms）
      */
-    private String timeLimit;
+    private Long timeLimit;
 
     /**
      * 内存限制（KB）
      */
-    private String memoryLimit;
+    private Long memoryLimit;
 
     /**
      * 堆栈限制（KB）
      */
-    private String stackLimit;
+    private Long stackLimit;
 }

@@ -14,15 +14,15 @@ public class JudgeInfo {
     /**
      * 时间占用（ms）
      */
-    private String timeLimit;
+    private Long timeLimit;
 
     /**
      * 内存占用（KB）
      */
-    private String memoryLimit;
+    private Long memoryLimit;
 
     /**
-     * 堆栈占用（KB）
+     * 执行信息
      */
-    private String stackLimit;
+    private String message;
 }

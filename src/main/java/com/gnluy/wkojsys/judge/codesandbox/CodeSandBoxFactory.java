@@ -15,8 +15,6 @@ public class CodeSandBoxFactory {
 
     public static CodeSandBox newInstance(String type) {
         switch (type) {
-            case "example":
-                return new ExampleCodeSandBox();
             case "remote":
                 return new RemoteCodeSandBox();
             case "thirdParty":
